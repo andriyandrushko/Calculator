@@ -65,9 +65,16 @@
         }
 
         [TestMethod]
-        public void ShouldHandleLargeNumbers()
-        {
-            Assert.AreEqual(1000000000, Calculator.CalculateSum("500000000,500000000"));
+        public void ShouldTreatValuesMoreThan1000AsInvalid()
+        {            // Arrange
+            string input = "1,1001,2";
+            int expectedResult = 3;
+
+            // Act
+            int result = Calculator.CalculateSum(input);
+
+            // Assert
+            Assert.AreEqual(expectedResult, result);
         }
 
         [TestMethod]
@@ -76,11 +83,5 @@
             Assert.AreEqual(0, Calculator.CalculateSum(null));
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(OverflowException))]
-        public void ShouldThrowOverflowExceptionForLargeSum()
-        {
-            Calculator.CalculateSum("2147483647, 2147483647");
-        }
     }
 }

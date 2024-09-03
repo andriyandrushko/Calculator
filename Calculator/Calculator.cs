@@ -23,7 +23,9 @@
                 throw new ArgumentException($"Negative numbers found: {string.Join(",", negativeNumbers)}");
             }
 
-            return numbers.Select(n => int.TryParse(n, out int value) ? value : 0).Sum();
+            return numbers
+                .Select(n => int.TryParse(n, out int value) && value <= 1000 ? value : 0)
+                .Sum();
         }
     }
 }
