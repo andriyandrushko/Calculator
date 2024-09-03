@@ -58,21 +58,16 @@
         }
 
         [TestMethod]
-        public void ShouldAddNegativeNumbersCorrectly()
+        public void ShouldThowArgumentExceptionOnNegativeNumbers()
         {
-            Assert.AreEqual(-1, Calculator.CalculateSum("-5,4"));
+            var exception = Assert.ThrowsException<ArgumentException>(() => Calculator.CalculateSum("-5,2,-1"));
+            Assert.AreEqual("Negative numbers found: -5,-1", exception.Message);
         }
 
         [TestMethod]
         public void ShouldHandleLargeNumbers()
         {
             Assert.AreEqual(1000000000, Calculator.CalculateSum("500000000,500000000"));
-        }
-
-        [ExpectedException(typeof(FormatException))]
-        public void ShouldThrowExceptionForInvalidInput()
-        {
-            Calculator.CalculateSum("abc,def");
         }
 
         [TestMethod]
