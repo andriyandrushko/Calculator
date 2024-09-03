@@ -11,7 +11,21 @@
             int expectedResult = 30;
 
             // Act
-            int result = Calculator.CalculateSum(input); // Assuming CalculateSum is in Calculator class
+            int result = Calculator.CalculateSum(input);
+
+            // Assert
+            Assert.AreEqual(expectedResult, result);
+        }
+
+        [TestMethod]
+        public void CalculateSumTestWithMultipleNumbers()
+        {
+            // Arrange
+            string input = "1,2,3,4,5,6,7,8,9,10,11,12";
+            int expectedResult = 78;
+
+            // Act
+            int result = Calculator.CalculateSum(input);
 
             // Assert
             Assert.AreEqual(expectedResult, result);
@@ -54,10 +68,10 @@
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
-        public void ShouldThrowExceptionForMoreThanTwoNumbers()
+        [ExpectedException(typeof(OverflowException))]
+        public void ShouldThrowOverflowExceptionForLargeSum()
         {
-            Calculator.CalculateSum("1,2,3");
+            Calculator.CalculateSum("2147483647, 2147483647");
         }
     }
 }

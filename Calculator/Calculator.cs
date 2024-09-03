@@ -8,11 +8,6 @@
 
             string[] numbers = arg.Split(',');
 
-            if (numbers.Length > 2)
-            {
-                throw new ArgumentException("Only two numbers are allowed.");
-            }
-
             return numbers.Select(n => int.TryParse(n, out int value) ? value : 0).Sum();
         }
     }
