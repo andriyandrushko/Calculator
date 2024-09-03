@@ -6,6 +6,9 @@
         {
             if(arg == null) return 0;
 
+            //support for /n as delimeter
+            arg = arg.Replace("\n", ",");
+
             string[] numbers = arg.Split(',');
 
             return numbers.Select(n => int.TryParse(n, out int value) ? value : 0).Sum();

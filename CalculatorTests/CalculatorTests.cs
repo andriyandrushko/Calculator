@@ -32,6 +32,20 @@
         }
 
         [TestMethod]
+        public void CalculateSumTestWithNewLineAsDelimiter()
+        {
+            // Arrange
+            string input = "1\n2,3";
+            int expectedResult = 6;
+
+            // Act
+            int result = Calculator.CalculateSum(input);
+
+            // Assert
+            Assert.AreEqual(expectedResult, result);
+        }
+
+        [TestMethod]
         public void ShouldIgnoreWhitespace()
         {
             Assert.AreEqual(5, Calculator.CalculateSum("  5,     "));
