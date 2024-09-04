@@ -6,6 +6,9 @@
         {
             if (arg == null) return (0, "");
 
+            // Replace "\\n" with "\n" to handle escaped newline
+            arg = arg.Replace("\\n", "\n");
+
             //apply custom delimeters
             arg = ApplyCustomDelimeters(arg);
 
