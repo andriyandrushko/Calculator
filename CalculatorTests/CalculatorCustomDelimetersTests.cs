@@ -81,6 +81,20 @@
         }
 
         [TestMethod]
+        public void CalculateSumTestWithMultyCustomDelimiters()
+        {
+            // Arrange
+            string input = "//[*][!!][r9r]\n11r9r22*hh*33!!44";
+            int expectedResult = 110;
+
+            // Act
+            int result = Calculator.CalculateSum(input);
+
+            // Assert
+            Assert.AreEqual(expectedResult, result);
+        }
+
+        [TestMethod]
         public void ShouldHandleCustomDelimiterWithMultipleNewlines()
         {
             Assert.AreEqual(10, Calculator.CalculateSum("//[***]\n1***2\n3***4"));

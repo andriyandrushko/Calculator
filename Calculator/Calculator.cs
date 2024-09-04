@@ -4,38 +4,53 @@
     {
         public static int CalculateSum(string arg)
         {
-            if(arg == null) return 0;
+            if (arg == null) return 0;
 
             // support for custom delimiter
             if (arg.StartsWith("//"))
             {
-                string delimiter;
-                int delimiterStartIndex = arg.IndexOf('[', 2);
-                int delimiterEndIndex = arg.IndexOf(']', 2);
+                int endOfCustomFormatString = arg.IndexOf("\n");
+                if (endOfCustomFormatString == -1)
+                {
+                    throw new ArgumentException("Wrong arguments format");
+                }
+
+                string customFormats = arg.Substring(2, endOfCustomFormatString - 2);
+                int delimiterStartIndex = customFormats.IndexOf('[');
+                int delimiterEndIndex = customFormats.LastIndexOf(']');
                 //check if we have custom multychar delimeter
                 //check if have [ and ] chars
-                if(delimiterStartIndex != -1 && delimiterEndIndex != -1)
+                if (delimiterStartIndex != -1 && delimiterEndIndex != -1)
                 {
-                    string endCustomFormatString = arg.Substring(delimiterEndIndex, 2);
                     //check if format is [*]/n
-                    if (delimiterEndIndex - delimiterStartIndex < 2 && endCustomFormatString == "/n")
+                    if (delimiterEndIndex - delimiterStartIndex < 2)
                     {
                         //found [] - empty custom delimeter
-                        throw new ArgumentException("Empty custom delimeter found, like //[]/n");
-                    } else
+                        throw new ArgumentException("Empty custom delimeter found, like //[]");
+                    }
+                    else
                     {
-                        delimiter = arg.Substring(3, delimiterEndIndex - 3);
-                        arg = arg.Substring(delimiterEndIndex + 1);
+                        string[] delimiters = customFormats.Split(']');
+                        //cutoff custom delimeters formats
+                        arg = arg.Substring(endOfCustomFormatString + 1);
+                        //apply all providet delimeters
+                        foreach (string item in delimiters)
+                        {
+                            if (!string.IsNullOrWhiteSpace(item))
+                            {
+                                arg = arg.Replace(item.Substring(1), ",");
+                            }
+                        }
                     }
                 }
                 else
                 {
                     //support for 1 char custom delimiter
-                    delimiter = arg[2].ToString();
-                    arg = arg.Substring(4);
+                    string delimiter = arg[2].ToString();
+                    arg = arg
+                            .Substring(4)
+                            .Replace(delimiter.ToString(), ",");
                 }
-                
-                arg = arg.Replace(delimiter.ToString(), ",");
             }
 
             //support for /n as delimeter
@@ -48,7 +63,7 @@
                 .Select(n => int.TryParse(n, out int value) ? value : 0)
                 .Where(n => n < 0)
                 .Select(n => n.ToString());
-            
+
             if (negativeNumbers.Any())
             {
                 var q = string.Join(",", negativeNumbers);
