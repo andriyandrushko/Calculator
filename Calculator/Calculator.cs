@@ -6,6 +6,30 @@
         {
             if (arg == null) return 0;
 
+            //apply custom delimeters
+            arg = ApplyCustomDelimeters(arg);
+
+            string[] numbers = arg.Split(',');
+
+            //check for negative numbers
+            var negativeNumbers = numbers
+                .Select(n => int.TryParse(n, out int value) ? value : 0)
+                .Where(n => n < 0)
+                .Select(n => n.ToString());
+
+            if (negativeNumbers.Any())
+            {
+                var q = string.Join(",", negativeNumbers);
+                throw new ArgumentException($"Negative numbers found: {string.Join(",", negativeNumbers)}");
+            }
+
+            return numbers
+                .Select(n => int.TryParse(n, out int value) && value <= 1000 ? value : 0)
+                .Sum();
+        }
+
+        public static string ApplyCustomDelimeters(string arg)
+        {
             // support for custom delimiter
             if (arg.StartsWith("//"))
             {
@@ -56,23 +80,7 @@
             //support for /n as delimeter
             arg = arg.Replace("\n", ",");
 
-            string[] numbers = arg.Split(',');
-
-            //check for negative numbers
-            var negativeNumbers = numbers
-                .Select(n => int.TryParse(n, out int value) ? value : 0)
-                .Where(n => n < 0)
-                .Select(n => n.ToString());
-
-            if (negativeNumbers.Any())
-            {
-                var q = string.Join(",", negativeNumbers);
-                throw new ArgumentException($"Negative numbers found: {string.Join(",", negativeNumbers)}");
-            }
-
-            return numbers
-                .Select(n => int.TryParse(n, out int value) && value <= 1000 ? value : 0)
-                .Sum();
+            return arg;
         }
     }
 }
