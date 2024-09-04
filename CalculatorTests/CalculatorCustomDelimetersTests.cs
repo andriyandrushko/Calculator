@@ -1,8 +1,21 @@
-﻿namespace Calculator.Tests
+﻿using Microsoft.Extensions.DependencyInjection;
+
+namespace Calculator.Tests
 {
     [TestClass]
     public class CalculatorCustomDelimetersTests
     {
+        private readonly ICalculator _calculator;
+
+        public CalculatorCustomDelimetersTests()
+        {
+            var serviceProvider = new ServiceCollection()
+                .AddTransient<ICalculator, CalculatorService>()
+                .BuildServiceProvider();
+
+            _calculator = serviceProvider.GetRequiredService<ICalculator>();
+        }
+
         [TestMethod]
         public void CalculateSumTestWithNewLineAsDelimiter()
         {
@@ -11,7 +24,7 @@
             int expectedResult = 6;
 
             // Act
-            int result = Calculator.CalculateSum(input).Item1;
+            int result = _calculator.CalculateSum(input).Item1;
 
             // Assert
             Assert.AreEqual(expectedResult, result);
@@ -25,7 +38,7 @@
             int expectedResult = 7;
 
             // Act
-            int result = Calculator.CalculateSum(input).Item1;
+            int result = _calculator.CalculateSum(input).Item1;
 
             // Assert
             Assert.AreEqual(expectedResult, result);
@@ -39,7 +52,7 @@
             int expectedResult = 7;
 
             // Act
-            int result = Calculator.CalculateSum(input).Item1;
+            int result = _calculator.CalculateSum(input).Item1;
 
             // Assert
             Assert.AreEqual(expectedResult, result);
@@ -53,7 +66,7 @@
             int expectedResult = 7;
 
             // Act
-            int result = Calculator.CalculateSum(input).Item1;
+            int result = _calculator.CalculateSum(input).Item1;
 
             // Assert
             Assert.AreEqual(expectedResult, result);
@@ -63,7 +76,7 @@
         [ExpectedException(typeof(ArgumentException))]
         public void CalculateSumTestWithCustomMultyCharEmptyDelimiter()
         {
-            Calculator.CalculateSum("//[]\n11***22***33");
+            _calculator.CalculateSum("//[]\n11***22***33");
         }
 
         [TestMethod]
@@ -74,7 +87,7 @@
             int expectedResult = 66;
 
             // Act
-            int result = Calculator.CalculateSum(input).Item1;
+            int result = _calculator.CalculateSum(input).Item1;
 
             // Assert
             Assert.AreEqual(expectedResult, result);
@@ -88,7 +101,7 @@
             int expectedResult = 110;
 
             // Act
-            int result = Calculator.CalculateSum(input).Item1;
+            int result = _calculator.CalculateSum(input).Item1;
 
             // Assert
             Assert.AreEqual(expectedResult, result);
@@ -97,7 +110,7 @@
         [TestMethod]
         public void ShouldHandleCustomDelimiterWithMultipleNewlines()
         {
-            Assert.AreEqual(10, Calculator.CalculateSum("//[***]\n1***2\n3***4").Item1);
+            Assert.AreEqual(10, _calculator.CalculateSum("//[***]\n1***2\n3***4").Item1);
         }
 
     }

@@ -1,8 +1,8 @@
 ﻿namespace Calculator
 {
-    public static class Calculator
+    public class CalculatorService : ICalculator
     {
-        public static (int, string) CalculateSum(string arg)
+        public (int, string) CalculateSum(string arg)
         {
             if (arg == null) return (0, "");
 
