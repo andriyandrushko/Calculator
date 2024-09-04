@@ -6,6 +6,14 @@
         {
             if(arg == null) return 0;
 
+            // support for custom delimiter
+            if (arg.StartsWith("//"))
+            {
+                char delimiter = arg[2]; 
+                arg = arg.Substring(4);
+                arg = arg.Replace(delimiter.ToString(), ",");
+            }
+
             //support for /n as delimeter
             arg = arg.Replace("\n", ",");
 
