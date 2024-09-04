@@ -9,8 +9,32 @@
             // support for custom delimiter
             if (arg.StartsWith("//"))
             {
-                char delimiter = arg[2]; 
-                arg = arg.Substring(4);
+                string delimiter;
+                int delimiterStartIndex = arg.IndexOf('[', 2);
+                int delimiterEndIndex = arg.IndexOf(']', 2);
+                //check if we have custom multychar delimeter
+                //check if have [ and ] chars
+                if(delimiterStartIndex != -1 && delimiterEndIndex != -1)
+                {
+                    string endCustomFormatString = arg.Substring(delimiterEndIndex, 2);
+                    //check if format is [*]/n
+                    if (delimiterEndIndex - delimiterStartIndex < 2 && endCustomFormatString == "/n")
+                    {
+                        //found [] - empty custom delimeter
+                        throw new ArgumentException("Empty custom delimeter found, like //[]/n");
+                    } else
+                    {
+                        delimiter = arg.Substring(3, delimiterEndIndex - 3);
+                        arg = arg.Substring(delimiterEndIndex + 1);
+                    }
+                }
+                else
+                {
+                    //support for 1 char custom delimiter
+                    delimiter = arg[2].ToString();
+                    arg = arg.Substring(4);
+                }
+                
                 arg = arg.Replace(delimiter.ToString(), ",");
             }
 
