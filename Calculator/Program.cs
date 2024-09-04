@@ -9,8 +9,9 @@
 
             try
             {
-                int result = Calculator.CalculateSum(input);
-                Console.WriteLine("The sum is: " + result);
+                (int, string) result = Calculator.CalculateSum(input);
+                Console.WriteLine("The sum is: " + result.Item1);
+                Console.WriteLine("The formula is: " + result.Item2);
             }
             catch (Exception ex)
             {

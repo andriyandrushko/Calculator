@@ -11,7 +11,7 @@
             int expectedResult = 30;
 
             // Act
-            int result = Calculator.CalculateSum(input);
+            int result = Calculator.CalculateSum(input).Item1;
 
             // Assert
             Assert.AreEqual(expectedResult, result);
@@ -25,7 +25,7 @@
             int expectedResult = 78;
 
             // Act
-            int result = Calculator.CalculateSum(input);
+            int result = Calculator.CalculateSum(input).Item1;
 
             // Assert
             Assert.AreEqual(expectedResult, result);
@@ -34,13 +34,13 @@
         [TestMethod]
         public void ShouldIgnoreWhitespace()
         {
-            Assert.AreEqual(5, Calculator.CalculateSum("  5,     "));
+            Assert.AreEqual(5, Calculator.CalculateSum("  5,     ").Item1);
         }
 
         [TestMethod]
         public void ShouldHandleLeadingZeros()
         {
-            Assert.AreEqual(5, Calculator.CalculateSum("005,0"));
+            Assert.AreEqual(5, Calculator.CalculateSum("005,0").Item1);
         }
 
         [TestMethod]
@@ -57,7 +57,7 @@
             int expectedResult = 3;
 
             // Act
-            int result = Calculator.CalculateSum(input);
+            int result = Calculator.CalculateSum(input).Item1;
 
             // Assert
             Assert.AreEqual(expectedResult, result);
@@ -66,7 +66,7 @@
         [TestMethod]
         public void ShouldHandleNullInput()
         {
-            Assert.AreEqual(0, Calculator.CalculateSum(null));
+            Assert.AreEqual(0, Calculator.CalculateSum(null).Item1);
         }
 
     }

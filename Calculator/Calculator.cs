@@ -2,9 +2,9 @@
 {
     public static class Calculator
     {
-        public static int CalculateSum(string arg)
+        public static (int, string) CalculateSum(string arg)
         {
-            if (arg == null) return 0;
+            if (arg == null) return (0, "");
 
             //apply custom delimeters
             arg = ApplyCustomDelimeters(arg);
@@ -22,10 +22,11 @@
                 var q = string.Join(",", negativeNumbers);
                 throw new ArgumentException($"Negative numbers found: {string.Join(",", negativeNumbers)}");
             }
-
-            return numbers
-                .Select(n => int.TryParse(n, out int value) && value <= 1000 ? value : 0)
-                .Sum();
+            var finalNumbers = numbers
+                .Select(n => int.TryParse(n, out int value) && value <= 1000 ? value : 0).ToList();
+            var result = finalNumbers.Sum();
+            var formula =  $"{string.Join("+", finalNumbers)}={result}";
+            return (result, formula);
         }
 
         public static string ApplyCustomDelimeters(string arg)
